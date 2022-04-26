@@ -1,51 +1,57 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import ListadoPeliculas from './Peliculas/ListadoPeliculas';
-import { landingPageDTO} from './Peliculas/Peliculas.model';
-import Button from './Utils/Button';
+import { BrowserRouter, Route, Routes} from "react-router-dom";
+import "./App.css";
+import Menu from "./Utils/Menu";
+import LandingPage from "./LandingPage";
+import IndiceGeneros from "./Generos/IndiceGeneros";
+import CrearGenero from "./Generos/CrearGenero";
+import EditarGenero from "./Generos/EditarGenero";
+import IndiceActores from "./Actores/IndiceActores";
+import CrearActores from "./Actores/CrearActores";
+import EditarActores from "./Actores/EditarActores";
+import IndiceCines from "./Cines/IndiceCines";
+import CrearCines from "./Cines/CrearCines";
+import EditarCines from "./Cines/EditarCines";
+import CrearPelicula from "./Peliculas/CrearPelicula";
+import EditarPelicula from "./Peliculas/EditarPelicula";
+import FiltroPeliculas from "./Peliculas/FiltroPeliculas";
+import NotFound from "./Utils/NotFound";
+
+import configurarValidaciones from "./Validaciones";
+
+configurarValidaciones();
 
 function App() {
-
-  const [peliculas, setPeliculas] = useState<landingPageDTO>({})
-
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setPeliculas({
-        enCartelera: [
-          {
-            id: 1, titulo: 'Spider-Man: Far from Home',
-            poster: 'https://m.media-amazon.com/images/M/MV5BMGZlNTY1ZWUtYTMzNC00ZjUyLWE0MjQtMTMxN2E3ODYxMWVmXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_UX182_CR0,0,182,268_AL_.jpg'
-          },
-          {
-            id: 2, titulo: 'Moana',
-            poster: 'https://m.media-amazon.com/images/M/MV5BMjI4MzU5NTExNF5BMl5BanBnXkFtZTgwNzY1MTEwMDI@._V1_UX182_CR0,0,182,268_AL_.jpg'
-          }
-        ],
-        proximosEstrenos: [
-          {
-            id: 3, titulo: 'Soul',
-            poster: 'https://m.media-amazon.com/images/M/MV5BZGE1MDg5M2MtNTkyZS00MTY5LTg1YzUtZTlhZmM1Y2EwNmFmXkEyXkFqcGdeQXVyNjA3OTI0MDc@._V1_UX182_CR0,0,182,268_AL_.jpg'
-          }
-        ]
-      })
-    }, 3000);
-
-    return () => clearTimeout(timerId);
-  })
   return (
-    <>
-    <div className="container">
-     
 
-     <Button>Mi componente boton</Button>
+      <BrowserRouter>
 
-      <h3>En cartelera</h3>
-      <ListadoPeliculas peliculas={peliculas.enCartelera} />
+        <Menu />
 
-      <h3>Proximos estrenos</h3>
-      <ListadoPeliculas peliculas={peliculas.proximosEstrenos} />
-      </div>
-    </>
+        <div className="container">
+          <Routes>
+           <Route path='/' element={<LandingPage/>}></Route>
+          
+           <Route path='/generos/CrearGenero' element={<CrearGenero/>}></Route>
+           <Route path='/generos/EditarGenero/:id' element={<EditarGenero/>}></Route>
+           <Route path='/generos' element={<IndiceGeneros/>}></Route>
+           
+           <Route path='/actores/CrearActores' element={<CrearActores/>}></Route>
+           <Route path='/actores/EditarActores' element={<EditarActores/>}></Route>
+           <Route path='/actores' element={<IndiceActores/>}></Route>
+        
+           <Route path='/cines/CrearCines' element={<CrearCines/>}></Route>
+           <Route path='/cines/EditarCines' element={<EditarCines/>}></Route>
+           <Route path='/cines' element={<IndiceCines/>}></Route>
+
+           <Route path='/peliculas/CrearPeliculas' element={<CrearPelicula/>}></Route>
+           <Route path='/pelicula/EditarPeliculas' element={<EditarPelicula/>}></Route>
+           <Route path='/peliculas/Filtro' element={<FiltroPeliculas/>}></Route>
+
+           <Route path="*" element={ <NotFound/>}></Route>
+
+          </Routes>
+        </div>
+      </BrowserRouter>
 
   );
 }
